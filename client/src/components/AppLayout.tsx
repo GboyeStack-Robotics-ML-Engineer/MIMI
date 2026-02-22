@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Home, User, Settings, Stethoscope, AlertTriangle, Heart, WifiOff, LogOut, ChevronDown } from 'lucide-react';
+import { Mic, User, LayoutGrid, Bell, Settings, Stethoscope, AlertTriangle, Heart, WifiOff, LogOut, ChevronDown } from 'lucide-react';
 import { HomePage } from '../pages/HomePage';
 import { ProfilePage } from '../pages/ProfilePage';
 import { CHEWPage } from '../pages/CHEWPage';
@@ -33,9 +33,10 @@ const NavigationBar = ({
   const currentUser = getCurrentUser();
 
   const patientNavItems = [
-    { path: '/', icon: <Home className="w-6 h-6" />, label: 'MIMI' },
-    { path: '/profile', icon: <User className="w-6 h-6" />, label: 'My Health' },
-    { path: '/settings', icon: <Settings className="w-6 h-6" />, label: 'Settings' }
+    { path: '/', icon: <Mic className="w-6 h-6" />, label: 'MIMI' },
+    { path: '/profile', icon: <User className="w-6 h-6" />, label: 'Profile' },
+    { path: '/health', icon: <LayoutGrid className="w-6 h-6" />, label: 'Health' },
+    { path: '/alerts', icon: <Bell className="w-6 h-6" />, label: 'Alerts' }
   ];
 
   const chewNavItems = [
@@ -65,8 +66,8 @@ const NavigationBar = ({
         </div>
       )}
 
-      {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+      {/* Mobile bottom nav — dark themed */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 mimi-nav z-50 safe-bottom">
         <div className="flex justify-around items-center h-16">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path || (location.pathname === '/' && item.path === '/');
@@ -75,12 +76,12 @@ const NavigationBar = ({
                 key={item.path}
                 to={item.path}
                 className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${isActive
-                    ? 'text-pink-500'
-                    : 'text-gray-500 hover:text-pink-400'
+                  ? 'text-white'
+                  : 'text-gray-500 hover:text-gray-300'
                   }`}
               >
                 {item.icon}
-                <span className="text-xs mt-1 font-medium">{item.label}</span>
+                <span className="text-[10px] mt-1 font-medium">{item.label}</span>
               </Link>
             );
           })}
@@ -88,23 +89,23 @@ const NavigationBar = ({
       </nav>
 
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex flex-col w-64 bg-white border-r border-gray-200 h-full shadow-sm">
-        <div className="p-6 border-b border-gray-100">
+      <aside className="hidden md:flex flex-col w-64 bg-[#0D0A1A] border-r border-white/10 h-full">
+        <div className="p-6 border-b border-white/10">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
               <Heart className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-black text-gray-800">MIMI</h1>
-              <p className="text-xs text-gray-400">Maternal Intelligence AI</p>
+              <h1 className="text-xl font-black text-white">MIMI</h1>
+              <p className="text-xs text-gray-500">Maternal Intelligence AI</p>
             </div>
           </div>
 
           {isLoggedIn && currentUser && (
-            <div className="mt-4 bg-pink-50 rounded-xl p-3">
-              <p className="text-sm font-semibold text-gray-800">{currentUser.name}</p>
+            <div className="mt-4 bg-white/5 rounded-xl p-3 border border-white/10">
+              <p className="text-sm font-semibold text-white">{currentUser.name}</p>
               {currentUser.gestationalWeek && (
-                <p className="text-xs text-pink-600">Week {currentUser.gestationalWeek} • {currentUser.location || 'Nigeria'}</p>
+                <p className="text-xs text-pink-400">Week {currentUser.gestationalWeek} • {currentUser.location || 'Nigeria'}</p>
               )}
             </div>
           )}
@@ -118,8 +119,8 @@ const NavigationBar = ({
                 key={item.path}
                 to={item.path}
                 className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${isActive
-                    ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-md'
-                    : 'text-gray-700 hover:bg-gray-50'
+                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-md'
+                  : 'text-gray-400 hover:bg-white/5 hover:text-white'
                   }`}
               >
                 {item.icon}
@@ -129,23 +130,23 @@ const NavigationBar = ({
           })}
         </nav>
 
-        <div className="p-4 border-t border-gray-100 space-y-2">
-          {/* Role Switcher (Demo Feature) */}
+        <div className="p-4 border-t border-white/10 space-y-2">
+          {/* Role Switcher */}
           <div className="relative">
             <button
               onClick={() => setShowRolePicker(!showRolePicker)}
-              className="w-full flex items-center justify-between px-3 py-2 bg-purple-50 hover:bg-purple-100 rounded-xl text-sm font-medium text-purple-700 transition-colors"
+              className="w-full flex items-center justify-between px-3 py-2 bg-purple-900/30 hover:bg-purple-900/50 rounded-xl text-sm font-medium text-purple-300 transition-colors border border-purple-500/20"
             >
               <span>{roleLabels[role]}</span>
               <ChevronDown className={`w-4 h-4 transition-transform ${showRolePicker ? 'rotate-180' : ''}`} />
             </button>
             {showRolePicker && (
-              <div className="absolute bottom-full left-0 right-0 mb-1 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50">
+              <div className="absolute bottom-full left-0 right-0 mb-1 bg-[#1A1030] rounded-xl shadow-xl border border-white/10 overflow-hidden z-50">
                 {(['patient', 'chew', 'hospital'] as UserRole[]).map(r => (
                   <button
                     key={r}
                     onClick={() => { onRoleSwitch(r); setShowRolePicker(false); }}
-                    className={`w-full text-left px-4 py-3 text-sm hover:bg-pink-50 transition-colors ${role === r ? 'bg-pink-50 text-pink-600 font-semibold' : 'text-gray-700'
+                    className={`w-full text-left px-4 py-3 text-sm hover:bg-white/5 transition-colors ${role === r ? 'bg-pink-900/20 text-pink-400 font-semibold' : 'text-gray-300'
                       }`}
                   >
                     {roleLabels[r]}
@@ -157,13 +158,13 @@ const NavigationBar = ({
 
           <div className="flex items-center justify-between px-3 py-2">
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-gray-500'}`} />
               <span className="text-xs text-gray-500">{isOnline ? 'Online' : 'Offline'}</span>
             </div>
             {isLoggedIn && (
               <button
                 onClick={onLogout}
-                className="flex items-center space-x-1 text-xs text-gray-400 hover:text-red-500 transition-colors"
+                className="flex items-center space-x-1 text-xs text-gray-500 hover:text-red-400 transition-colors"
               >
                 <LogOut className="w-3 h-3" />
                 <span>Switch User</span>
@@ -180,7 +181,6 @@ const AppLayoutInner = ({ initialRole = 'patient' }: AppLayoutProps) => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [role, setRole] = useState<UserRole>(initialRole);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
-    // Check if user is already logged in
     return !!getCurrentUser();
   });
 
@@ -195,7 +195,6 @@ const AppLayoutInner = ({ initialRole = 'patient' }: AppLayoutProps) => {
     };
   }, []);
 
-  // For CHEW and hospital views, skip login
   useEffect(() => {
     if (role === 'chew' || role === 'hospital') {
       setIsLoggedIn(true);
@@ -213,7 +212,6 @@ const AppLayoutInner = ({ initialRole = 'patient' }: AppLayoutProps) => {
 
   const handleRoleSwitch = (newRole: UserRole) => {
     setRole(newRole);
-    // Navigate to role's home
     const paths: Record<UserRole, string> = {
       patient: '/',
       chew: '/chew',
@@ -222,7 +220,6 @@ const AppLayoutInner = ({ initialRole = 'patient' }: AppLayoutProps) => {
     window.location.href = paths[newRole];
   };
 
-  // Show login for patient role if not logged in
   if (!isLoggedIn && role === 'patient') {
     return <LoginPage onLogin={handleLogin} />;
   }
@@ -237,12 +234,14 @@ const AppLayoutInner = ({ initialRole = 'patient' }: AppLayoutProps) => {
         onLogout={handleLogout}
       />
 
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-hidden pb-16 md:pb-0">
         <Routes>
           {role === 'patient' && (
             <>
               <Route path="/" element={<HomePage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/health" element={<SettingsPage />} />
+              <Route path="/alerts" element={<HospitalPage />} />
               <Route path="/settings" element={<SettingsPage />} />
             </>
           )}
