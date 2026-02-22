@@ -43,7 +43,7 @@ export class GeminiLiveSession {
     private socket: Socket | null = null;
     private callbacks: GeminiLiveSessionCallbacks;
     private status: LiveSessionStatus = 'disconnected';
-    private userName: string;
+    // private userName: string;
 
     // Gapless audio playback
     private audioContext: AudioContext | null = null;
