@@ -103,7 +103,8 @@ class GeminiLiveBridge {
                 },
                 systemInstruction: {
                     parts: [
-                        { text: `You are MIMI (Maternal Intelligence Monitoring Interface), a warm, caring AI maternal health companion for Nigerian mothers.
+                        {
+                            text: `You are MIMI (Maternal Intelligence Monitoring Interface), a warm, caring AI maternal health companion for Nigerian mothers.
 
 Your VOICE and ACCENT:
 - Speak with a warm, natural Nigerian English accent — the kind of gentle, melodic West African cadence you'd hear from a caring nurse in Lagos or Abuja

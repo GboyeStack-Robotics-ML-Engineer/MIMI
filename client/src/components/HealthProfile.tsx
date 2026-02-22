@@ -122,13 +122,12 @@ export const HealthProfile = ({ data }: HealthProfileProps) => {
               >
                 <div className="flex items-center space-x-3">
                   <div
-                    className={`w-2 h-2 rounded-full ${
-                      symptom.severity === 'severe'
+                    className={`w-2 h-2 rounded-full ${symptom.severity === 'severe'
                         ? 'bg-red-500'
                         : symptom.severity === 'moderate'
-                        ? 'bg-yellow-500'
-                        : 'bg-green-500'
-                    }`}
+                          ? 'bg-yellow-500'
+                          : 'bg-green-500'
+                      }`}
                   />
                   <span className="font-medium text-gray-800">{symptom.symptom}</span>
                 </div>
@@ -184,8 +183,8 @@ export const HealthProfile = ({ data }: HealthProfileProps) => {
               {data.folicAcidAdherence >= 80
                 ? "Excellent! You're doing great!"
                 : data.folicAcidAdherence >= 50
-                ? "Good, but try to be more consistent"
-                : "Let's work on taking your medication daily"}
+                  ? "Good, but try to be more consistent"
+                  : "Let's work on taking your medication daily"}
             </p>
           </div>
           <div className="w-24 h-24">
